@@ -45,7 +45,7 @@
                 <input type="number" name="otp" autocomplete="off" placeholder="OTP" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none"/>
             </div>
 
-            <button type="submit" class="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">{$.otp_requested ? "Register" : "Request OTP"}</button>
+            <button type="submit" name="submit" class="submit-btn w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">{$.otp_requested ? "Register" : "Request OTP"}</button>
 
             <p class="text-sm text-gray-500 mt-3">Already have a student account ? <a n:route="/auth/login" class="text-blue-500 hover:underline">Login Here</a></p>
             <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 error">{$.error}</p>
@@ -58,6 +58,11 @@
 <style>
   .error:empty{
     display: none;
+  }
+
+  .submit-btn:disabled{
+    background-color: #d1d5dc;
+    color: white;
   }
 </style>
 
@@ -78,8 +83,10 @@
 
     async function HandleSubmit(event,_this,$) {
         event.preventDefault();
+        const submitBtn = _this.getElementsByClassName('submit-btn')[0];
+        submitBtn.setAttribute('disabled', true);
+        
         const formData = new FormData(_this);
-
         if($.otp_requested){
             if(!formData.get("otp")) return $.error = "OTP can't be empty !";
 
@@ -105,14 +112,14 @@
             const data = await res.json();
 
             if (res.ok && data.access_token) {
-                window.nijor.href = "/app";
+                window.location.href = "/app" ;
             }
 
             else {
-                console.log(data)
                 $.error = `Error : ${data.error}`;
             }
 
+            submitBtn.removeAttribute('disabled');
             return false;
         }
 
@@ -130,6 +137,8 @@
         } catch (error) { 
             $.error = `Error : ${error}`;
         }
+
+        submitBtn.removeAttribute('disabled');
 
         return false;
     }

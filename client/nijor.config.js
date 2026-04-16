@@ -9,9 +9,7 @@ export const build = {
     mode : "spa"
 };
 
-export const middlewares = [ 
-    // auth(['/dashboard/*','/me']) 
-];
+export const middlewares = [ auth ];
 
 export const plugins = [];
 

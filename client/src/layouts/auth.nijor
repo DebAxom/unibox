@@ -7,8 +7,8 @@
         <!-- Hidden on mobile -->
         <div class="hidden md:flex md:w-3/5 bg-blue-600 text-white items-center justify-center p-8">
             <div class="text-center max-w-sm">
-                <h2 class="text-xl font-semibold mb-2">Secondary Panel</h2>
-                <p class="text-blue-100">This column is hidden on mobile and appears on tablets/desktops.</p>
+                <h2 class="text-xl font-semibold mb-2">Unibox</h2>
+                <p class="text-blue-100"></p>
             </div>
         </div>
 

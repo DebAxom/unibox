@@ -1,0 +1,87 @@
+<head>
+    <title>Unibox | Profile</title>
+</head>
+<body layout="app">
+    <div class="w-full max-w-5xl mx-auto px-6 py-10 ">
+
+        <!-- Profile Card -->
+        <div class="bg-white rounded-2xl p-6 mt-10 profile">
+
+            <!-- Header -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-gray-800">{user?.name}</h2>
+                <p class="text-sm text-gray-500">{user?.email}</p>
+            </div>
+
+            <hr class="mb-6">
+
+            <!-- Info Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div>
+                    <p class="text-xs uppercase tracking-wide text-gray-400">Full Name</p>
+                    <p class="text-gray-800 font-medium">{user?.name}</p>
+                </div>
+
+                <div>
+                    <p class="text-xs uppercase tracking-wide text-gray-400">Email</p>
+                    <p class="text-gray-800 font-medium">{user?.email}</p>
+                </div>
+
+                <div>
+                    <p class="text-xs uppercase tracking-wide text-gray-400">Scholar ID</p>
+                    <p class="text-gray-800 font-medium">{user?.scholar_id}</p>
+                </div>
+
+                <div>
+                    <p class="text-xs uppercase tracking-wide text-gray-400">Hostel</p>
+                    <p class="text-gray-800 font-medium">{user?.hostel}</p>
+                </div>
+
+                <div>
+                    <p class="text-xs uppercase tracking-wide text-gray-400">Gender</p>
+                    <p class="text-gray-800 font-medium">{user?.gender}</p>
+                </div>
+
+            </div>
+
+            <!-- Logout Buttons -->
+            <div class="mt-8 flex flex-row gap-3 justify-end">
+                <button class="px-4 py-2 text-sm rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 cursor-pointer" on:click="logout()">Logout</button>
+                <button class="px-4 py-2 text-sm rounded-md bg-red-500 text-white hover:bg-red-600 cursor-pointer" on:click="logout_all()">Logout All</button>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+<style>
+    .profile{
+        box-shadow: rgba(60, 64, 67, 0.6) 0px 0px 0px 1px,rgba(60, 64, 67, 0.2) 0px 2px 4px 0px;
+    }
+</style>
+
+<script>
+    const user = window.currentUser;
+
+    async function logout(){
+        const res = await fetch("http://localhost:5000/auth/logout", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        window.location.href = "/auth";
+    }
+
+    async function logout_all(){
+        const res = await fetch("http://localhost:5000/auth/logoutall", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        window.location.href = "/auth";
+    }
+</script>

@@ -19,10 +19,10 @@
                 <input type="password" name="password" autocomplete="off" placeholder="Password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
             </div>
 
-            <button type="submit" class="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">Login</button>
+            <button type="submit" class="submit-btn w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">Login</button>
             
             <p class="text-sm text-gray-500 mt-3">Don't have an account ? <a n:route="/auth/register" class="text-blue-500 hover:underline">Register Here</a></p>
-            <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{$.error}</p>
+            <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 error">{$.error}</p>
         
         </form>
     </div>
@@ -32,69 +32,45 @@
   .error:empty{
     display: none;
   }
+
+  .submit-btn:disabled{
+    background-color: #d1d5dc;
+    color: white;
+  }
 </style>
 
 <script>
-  $.username = "";
-  $.pass = "";
-  $.error = "";
+    $.error = "";
 
-  async function Login(event, $) {
-    event.preventDefault();
+    async function login(event,_this,$) {
+        event.preventDefault();
+        const submitBtn = _this.getElementsByClassName('submit-btn')[0];
+        submitBtn.setAttribute('disabled', true);
 
-    let username = $.username.value.startsWith('@') ? $.username.value.replace('@', '') : $.username.value;
-    let password = $.pass.value;
+        const formData = new FormData(_this);
+        const email = formData.get("email").toLowerCase();
+        const password = formData.get("password");
 
-    const body = { username, password };
+        const body = { email , password };
+        console.log(body);
 
-    const res = await fetch("http://localhost:5000/auth/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body),
-    });
+        const res = await fetch("http://localhost:5000/auth/login", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
 
-    const data = await res.json();
+        const data = await res.json();
 
-    if (data.access_token) {
-      setAccessToken(data.access_token);
-      await window.refreshUser();
-      window.nijor.redirect("/");
-    } else {
-      $.error = `Error : ${data.error}`;
+        if (data.access_token) {
+            window.location.href = "/app" ;
+        } else {
+            $.error = `Error : ${data.error}`;
+        }
+
+        submitBtn.removeAttribute('disabled');
+        return false;
     }
-
-    return false;
-  }
-
-  async function login(event,_this,$) {
-    event.preventDefault();
-    const formData = new FormData(_this);
-    const email = formData.get("email").toLowerCase();
-    const password = formData.get("password");
-
-    const body = { email , password };
-
-    const res = await fetch("http://localhost:5000/auth/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body),
-    });
-
-    const data = await res.json();
-
-    if (res.ok && data.access_token) {
-      window.nijor.href = "/app" ;
-    } else {
-      $.error = `Error : ${data.error}`;
-    }
-
-    return false;
-  }
 
 </script>

@@ -1,0 +1,15 @@
+<body>
+    <header class="w-full max-w-248 mx-auto sticky top-6 px-6 py-3 bg-white h-17.5 flex flex-row p-1.25 z-10 shrink-0 rounded-full">
+        <h1 class="my-auto font-bold text-2xl text-gray-800">Unibox</h1>
+        <a n:route="/app/profile" class="ml-auto my-auto w-8 h-8 flex items-center justify-center rounded-full bg-blue-300 text-black text-sm cursor-pointer">{display_name}</a>
+    </header>
+</body>
+<style>
+    header{
+        box-shadow: rgba(0, 0, 0, 0.18) 0px 6px 16px 0px,rgba(0, 0, 0, 0.10) 0px 2px 6px 0px;
+    }
+</style>
+<script>
+    const initials = window.currentUser.name.trim().split(" ").filter(Boolean);
+    const display_name = initials.length === 1 ? initials[0][0].toUpperCase() : (initials[0][0] + initials[initials.length - 1][0]).toUpperCase();
+</script>

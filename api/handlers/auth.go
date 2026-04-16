@@ -151,7 +151,7 @@ func (h *Auth) RequestOTP(c fiber.Ctx) error {
 	err := utils.SendOTP(otp, body.Email)
 	if err != nil {
 		fmt.Println(err)
-		c.Status(500).SendString("Couldn't send OTP")
+		return c.Status(500).SendString("Couldn't send OTP")
 	}
 
 	h.RDB.Set(c.Context(), key, otp, 7*time.Minute)

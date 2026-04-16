@@ -1,67 +1,37 @@
-export default function (protectedRoutes = []) {
+import jwt from "jsonwebtoken";
 
-    return async function (req, res, next) {
-        const refresh_token = req.cookies.get("refresh_token");
+export default function (req, res, next) {
+    const refresh_token = req.cookies.get("refresh_token");
+    let role = "";
+    let verified = false;
 
-        const url = req.url.split("?")[0];
-        const normalizedRoute = normalizeRoute(url);
-        const modulePath = routeToModule(normalizedRoute);
+    try {
+        const payload = jwt.verify(refresh_token, process.env.JWT_SECRET);
+        role = payload.role;
+        verified = true;
+    } catch (error) {
+        verified = false;
+    }
 
-        const isProtected = matchRoute(normalizedRoute, modulePath, protectedRoutes);
+    const url = req.url.split("?")[0];
 
-        if (isProtected && !refresh_token) {
+    // Restrict app/
+    if (url.startsWith('/app') || url.startsWith('/modules/pages/app-') || url === "/modules/layouts/app.js") {
+        if (!verified || role !== "user") {
             res.statusCode = 302;
-            res.setHeader("Location", `/auth/login?redirect=${encodeURIComponent(req.url)}`);
+            res.setHeader("Location", "/auth");
             return res.end();
         }
-
-        next();
-    };
-}
-
-function normalizeRoute(url) {
-    // remove trailing slash except root
-    if (url.length > 1 && url.endsWith("/")) {
-        url = url.slice(0, -1);
     }
-    return url;
-}
 
-function routeToModule(route) {
-    if (route === "/") return "/modules/pages/index.js";
-
-    const name = route
-        .slice(1)              // remove leading '/'
-        .replace(/\//g, "-");  // convert subroutes
-    return `/modules/pages/${name}.js`;
-}
-
-function matchRoute(route, modulePath, rules) {
-    return rules.some(rule => {
-        // wildcard: /dashboard/*
-        if (rule.endsWith("/*")) {
-            const base = rule.slice(0, -2);
-
-            const baseModule = routeToModule(base); // exact file
-            const baseModulePrefix = baseModule.replace(".js", "-");
-
-            return (
-                route === base ||                      // /dashboard
-                route.startsWith(base + "/") ||        // /dashboard/*
-                modulePath === baseModule ||           // dashboard.js
-                modulePath.startsWith(baseModulePrefix) // dashboard-*.js
-            );
+    // Restrict dashboard/
+    if (url.startsWith('/dashboard') || url.startsWith('/modules/pages/dashboard-') || url === "/modules/layouts/dashboard.js") {
+        if (!verified || role !== "admin") {
+            res.statusCode = 302;
+            res.setHeader("Location", "/auth/admin");
+            return res.end();
         }
+    }
 
-        // exact match
-        return rule === route || rule === modulePath;
-    });
-}
-
-function parseCookies(cookieHeader = "") {
-    return cookieHeader.split(";").map(cookie => cookie.trim()).filter(Boolean).reduce((acc, cookie) => {
-        const [key, ...v] = cookie.split("=");
-        acc[key] = decodeURIComponent(v.join("="));
-        return acc
-    }, {});
+    next();
 }

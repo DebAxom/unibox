@@ -21,7 +21,7 @@ func (h *Profile) Me(c fiber.Ctx) error {
 			return err
 		}
 
-		return c.Status(200).JSON(fiber.Map{"id": userId, "role": role, "name": user.Name, "email": user.Email})
+		return c.Status(200).JSON(fiber.Map{"id": userId, "role": role, "name": user.Name, "email": user.Email, "scholar_id": user.ScholarID, "gender": user.Gender, "hostel": user.Hostel})
 	}
 
 	if role == "user" {
