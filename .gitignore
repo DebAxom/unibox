@@ -1,4 +1,5 @@
 api/.env
+client/.env
 client/node_modules
 client/assets/modules
 client/assets/style.css

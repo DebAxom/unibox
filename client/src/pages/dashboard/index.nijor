@@ -2,5 +2,5 @@
     <title>Dashboard</title>
 </head>
 <body layout="dashboard">
-    <h1>Hi</h1>
+    <h1>This is Admin Dashboard</h1>
 </body>
