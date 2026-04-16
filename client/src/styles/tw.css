@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+body{
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+}
+
+#app{
+  @apply flex flex-col h-dvh;
+}
+
+@layer base {
+  html {
+    font-feature-settings: "lnum";
+  }
+}

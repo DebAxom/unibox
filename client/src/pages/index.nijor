@@ -1,0 +1,8 @@
+<head>
+    <title>Nijor</title>
+</head>
+<body>
+    <div class="flex flex-col" >
+        <h1>Hello</h1>
+    </div>
+</body>

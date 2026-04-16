@@ -1,0 +1,21 @@
+*{
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-feature-settings: "lnum";
+}
+
+.slot::-webkit-scrollbar {
+    background-color: rgb(218, 214, 214);
+    width: 8px;
+}
+
+.slot::-webkit-scrollbar-thumb {
+    background-color: rgb(233, 232, 232);
+    width: 8px;
+    height: 8px;
+}
+
+.slot::-webkit-scrollbar-thumb:hover,.slot::-webkit-scrollbar-thumb:active {
+    background-color: #0099ff;
+}

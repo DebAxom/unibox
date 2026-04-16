@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS admins (
+  id TEXT PRIMARY KEY,
+  username TEXT NOT NULL,
+  password TEXT NOT NULL,
+  token_version INT NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

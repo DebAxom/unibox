@@ -1,0 +1,45 @@
+<head>
+    <title>Unibox | Admin Login</title>
+</head>
+<body layout="auth">
+   <div class="w-full h-full max-w-sm flex flex-col">
+
+    <div>
+      <h1 class="text-3xl font-semibold text-gray-800 mb-2">Admin Login</h1>
+      <p class="text-gray-500">Admins can login only on desktop</p>
+    </div>
+
+    <form class="space-y-4 mt-10">
+
+      <div class="relative">
+        <input type="text" autocomplete="off" placeholder="@username" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+      </div>
+
+      <div class="relative">
+        <input type="password" autocomplete="off" placeholder="Password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+      </div>
+
+      <button type="submit" class="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">Login</button>
+      
+      <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2" data-error="{$.error}">{$.error}</p>
+    </form>
+
+  </div>
+</body>
+
+
+<style>
+  p[data-error=""]{
+    display: none;
+  }
+</style>
+
+<script>
+    $.error = "";
+    
+</script>
+<script defer>
+    if (window.innerWidth < 768) {
+        window.nijor.redirect('/auth');
+    }
+</script>

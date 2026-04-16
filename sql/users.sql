@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS users (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  scholar_id TEXT NOT NULL,
+  password TEXT NOT NULL,
+  gender TEXT,
+  hostel TEXT,
+  token_version INT NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

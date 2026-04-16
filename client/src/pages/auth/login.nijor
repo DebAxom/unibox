@@ -1,0 +1,100 @@
+<head>
+  <title>Unibox | Login</title>
+</head>
+
+<body layout="auth">
+    <div class="w-full h-full max-w-sm flex flex-col">
+        <div>
+            <h1 class="text-3xl font-semibold text-gray-800 mb-2">Login to Unibox</h1>
+            <p class="text-gray-500">Login with your NIT Silchar email address</p>
+        </div>
+
+        <form class="space-y-4 mt-10" on:submit="return login(event,this)">
+
+            <div class="relative">
+                <input type="email" name="email" autocomplete="off" placeholder="Email Address" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+            </div>
+
+            <div class="relative">
+                <input type="password" name="password" autocomplete="off" placeholder="Password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+            </div>
+
+            <button type="submit" class="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">Login</button>
+            
+            <p class="text-sm text-gray-500 mt-3">Don't have an account ? <a n:route="/auth/register" class="text-blue-500 hover:underline">Register Here</a></p>
+            <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{$.error}</p>
+        
+        </form>
+    </div>
+</body>
+
+<style>
+  .error:empty{
+    display: none;
+  }
+</style>
+
+<script>
+  $.username = "";
+  $.pass = "";
+  $.error = "";
+
+  async function Login(event, $) {
+    event.preventDefault();
+
+    let username = $.username.value.startsWith('@') ? $.username.value.replace('@', '') : $.username.value;
+    let password = $.pass.value;
+
+    const body = { username, password };
+
+    const res = await fetch("http://localhost:5000/auth/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+
+    if (data.access_token) {
+      setAccessToken(data.access_token);
+      await window.refreshUser();
+      window.nijor.redirect("/");
+    } else {
+      $.error = `Error : ${data.error}`;
+    }
+
+    return false;
+  }
+
+  async function login(event,_this,$) {
+    event.preventDefault();
+    const formData = new FormData(_this);
+    const email = formData.get("email").toLowerCase();
+    const password = formData.get("password");
+
+    const body = { email , password };
+
+    const res = await fetch("http://localhost:5000/auth/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.access_token) {
+      window.nijor.href = "/app" ;
+    } else {
+      $.error = `Error : ${data.error}`;
+    }
+
+    return false;
+  }
+
+</script>

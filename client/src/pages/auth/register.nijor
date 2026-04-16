@@ -1,0 +1,137 @@
+<head>
+    <title>Unibox | Register</title>
+</head>
+
+<body layout="auth">
+    <div class="w-full h-full max-w-sm flex flex-col">
+
+        <div>
+            <h1 class="text-3xl font-semibold text-gray-800 mb-2">Register to Unibox</h1>
+            <p class="text-gray-500">Only NIT Silchar student emails are allowed</p>
+        </div>
+
+        <form class="space-y-4 mt-10" on:submit="return HandleSubmit(event,this)">
+
+            <div class="relative">
+                <input type="text" name="name" autocomplete="off" placeholder="Name" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+            </div>
+            
+            <div class="relative">
+                <input type="email" name="email" autocomplete="off" placeholder="Email Address" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+            </div>
+            
+            <div class="relative">
+                <input type="text" name="scholar_id" autocomplete="off" placeholder="Scholar ID" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+            </div>
+
+            <div class="relative">
+                <input type="password" name="password" autocomplete="off" placeholder="Password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+            </div>
+
+            <select id="gender" name="gender" class="w-full border border-gray-300 rounded-lg px-3 py-2" oncshange="updateHostels(this)" n:bind="{$.gender}" required>
+                <option value="" selected hidden>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <div class="relative">
+                <select name="hostel" n:loop var="x" source="$.hostels" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-700 focus:ring-2 focus:outline-none" required>
+                    <option value="{x}">{x}</option>
+                </select>
+            </div>
+
+            <div class="relative" class:hidden="{ !$.otp_requested }">
+                <input type="number" name="otp" autocomplete="off" placeholder="OTP" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none"/>
+            </div>
+
+            <button type="submit" class="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">{$.otp_requested ? "Register" : "Request OTP"}</button>
+
+            <p class="text-sm text-gray-500 mt-3">Already have a student account ? <a n:route="/auth/login" class="text-blue-500 hover:underline">Login Here</a></p>
+            <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 error">{$.error}</p>
+
+        </form>
+
+    </div>
+</body>
+
+<style>
+  .error:empty{
+    display: none;
+  }
+</style>
+
+<script>
+
+    $.error = "";
+    $.otp_requested = false;
+
+    $.$subscribe('gender',sex=>{
+        if(sex=='male') $.hostels = male_hostels;
+        if(sex=='female') $.hostels = female_hostels;
+        if(sex=='other') $.hostels = [...male_hostels, ...female_hostels];
+    });
+
+    $.hostels = ['Select Hostel'];
+    const male_hostels = ['ABH', 'BH3', 'BH4', 'BH8'];
+    const female_hostels = ['GH1', 'GH3'];
+
+    async function HandleSubmit(event,_this,$) {
+        event.preventDefault();
+        const formData = new FormData(_this);
+
+        if($.otp_requested){
+            if(!formData.get("otp")) return $.error = "OTP can't be empty !";
+
+            const name = formData.get("name");
+            const email = formData.get("email").toLowerCase();
+            const scholar_id = formData.get("scholar_id").toUpperCase();
+            const password = formData.get("password");
+            const otp = formData.get("otp");
+            const gender = formData.get("gender");
+            const hostel = formData.get("hostel").toUpperCase();
+
+            const body = { name, otp, email , scholar_id, password, gender, hostel };
+
+            const res = await fetch("http://localhost:5000/auth/register", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body),
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.access_token) {
+                window.nijor.href = "/app";
+            }
+
+            else {
+                console.log(data)
+                $.error = `Error : ${data.error}`;
+            }
+
+            return false;
+        }
+
+        try {
+            const res = await fetch("http://localhost:5000/auth/otp", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({email: formData.get("email")}),
+            });
+
+            if(res.ok) $.otp_requested = true;
+            else $.error = "Error : Couldn't send OTP";
+
+        } catch (error) { 
+            $.error = `Error : ${error}`;
+        }
+
+        return false;
+    }
+
+</script>

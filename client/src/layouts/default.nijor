@@ -1,0 +1,7 @@
+<import name="header" source="@/components/header.nijor">
+<import name="footer" source="@/components/footer.nijor">
+<body>
+    <header></header>
+        <div n:slot class="mt-17.5"></div>
+    <footer></footer>
+</body>

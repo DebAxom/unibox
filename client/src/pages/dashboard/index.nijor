@@ -1,0 +1,6 @@
+<head>
+    <title>Dashboard</title>
+</head>
+<body layout="dashboard">
+    <h1>Hi</h1>
+</body>
