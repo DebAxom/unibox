@@ -1,5 +1,3 @@
-<import name="header" source="@/components/header.nijor">
-<import name="footer" source="@/components/footer.nijor">
 <body>
     <div n:slot></div>
 </body>

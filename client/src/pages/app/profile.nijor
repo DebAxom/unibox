@@ -40,7 +40,7 @@
 
                 <div>
                     <p class="text-xs uppercase tracking-wide text-gray-400">Gender</p>
-                    <p class="text-gray-800 font-medium">{user?.gender}</p>
+                    <p class="text-gray-800 font-medium capitalize">{user?.gender}</p>
                 </div>
 
             </div>

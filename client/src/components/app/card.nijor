@@ -1,60 +1,97 @@
 <body props="{ id, title, desc, status, dept, date }">
 
-    <div on:click="toggleDesc(this)" class="group cursor-pointer bg-white backdrop-blur-md border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+    <div on:click="toggleDesc(this)" class="relative group cursor-pointer bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:bg-white/90 active:scale-[0.99]transition-all duration-300">
 
         <div class="flex justify-between items-start gap-4">
             <h3 class="text-lg font-semibold text-gray-800 leading-snug group-hover:text-black transition">{title}</h3>
-            <span class="shrink-0 px-3 py-1 text-xs font-medium rounded-2xl capitalize" data-status="{status}">{status}</span>
+            <span class="shrink-0 px-3 py-1 text-xs font-medium rounded-full capitalize" data-status="{status}">{status}</span>
         </div>
 
-        <p class="desc mt-2 text-sm text-gray-500 overflow-hidden max-h-[3em] transition-[max-height] duration-500 ease-in-out max-w-[60ch] text-justify">{desc}</p>
+        <!-- Description -->
+		<p class="desc mt-2 text-sm text-gray-500 overflow-hidden max-h-[3em] transition-all duration-300 ease-in-out text-justify">{desc}</p>
 
-        <div class="mt-4 flex items-center justify-between text-xs text-gray-500">
+        <!-- Bottom Meta -->
+        <div class="mt-4 flex items-center justify-between text-xs text-gray-400">
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-5">
+
                 <span class="flex items-center gap-1">
                     <span>#{id}</span>
                 </span>
+
                 <span class="flex items-center gap-1">
                     <span><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#6a7282"><path d="M200-451v-58h267.93l192.76-193H530v-58h230v230h-58v-130.69L492.31-451H200Zm330 251v-58h132.69L535.54-388.69l36.77-36.77L702-299.31V-430h58v230H530Z"/></svg></span>
                     <span>{dept}</span>
                 </span>
+
+                <span class="flex items-center gap-1">
+                    <span><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#6a7282"><path d="M214.46-100q-31.3 0-53.55-22.25-22.24-22.24-22.24-53.54v-537.24q0-31.3 22.24-53.54 22.25-22.25 53.55-22.25h57.39v-80.41h55.53v80.41h308.31v-80.41h52.98v80.41h56.87q31.3 0 53.55 22.25 22.24 22.24 22.24 53.54v537.24q0 31.3-22.24 53.54Q776.84-100 745.54-100H214.46Zm0-51.18h531.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-376h-580.3v376q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69Zm-24.61-451.79h580.3v-110.06q0-9.23-7.69-16.92-7.69-7.69-16.92-7.69H214.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v110.06Zm0 0V-737.64-602.97Zm290.02 213.12q-13.59 0-24.11-10.65-10.53-10.65-10.53-24.24 0-13.59 10.66-24.12 10.65-10.52 24.24-10.52 13.59 0 24.11 10.65 10.53 10.65 10.53 24.24 0 13.59-10.66 24.12-10.65 10.52-24.24 10.52ZM295.76-400.5q-10.53-10.65-10.53-24.24 0-13.59 10.66-24.12 10.65-10.52 24.24-10.52 13.59 0 24.11 10.65 10.53 10.65 10.53 24.24 0 13.59-10.66 24.12-10.65 10.52-24.24 10.52-13.59 0-24.11-10.65Zm344.11 10.65q-13.59 0-24.11-10.65-10.53-10.65-10.53-24.24 0-13.59 10.66-24.12 10.65-10.52 24.24-10.52 13.59 0 24.11 10.65 10.53 10.65 10.53 24.24 0 13.59-10.66 24.12-10.65 10.52-24.24 10.52ZM479.87-236q-13.59 0-24.11-10.65-10.53-10.66-10.53-24.25t10.66-24.11q10.65-10.53 24.24-10.53 13.59 0 24.11 10.66 10.53 10.65 10.53 24.24 0 13.59-10.66 24.11Q493.46-236 479.87-236Zm-184.11-10.65q-10.53-10.66-10.53-24.25t10.66-24.11q10.65-10.53 24.24-10.53 13.59 0 24.11 10.66 10.53 10.65 10.53 24.24 0 13.59-10.66 24.11Q333.46-236 319.87-236q-13.59 0-24.11-10.65ZM639.87-236q-13.59 0-24.11-10.65-10.53-10.66-10.53-24.25t10.66-24.11q10.65-10.53 24.24-10.53 13.59 0 24.11 10.66 10.53 10.65 10.53 24.24 0 13.59-10.66 24.11Q653.46-236 639.87-236Z"/></svg></span>
+                <span>{date}</span>
+                
             </div>
 
-            <span class="flex items-center gap-1">
-                <span><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#6a7282"><path d="M214.46-100q-31.3 0-53.55-22.25-22.24-22.24-22.24-53.54v-537.24q0-31.3 22.24-53.54 22.25-22.25 53.55-22.25h57.39v-80.41h55.53v80.41h308.31v-80.41h52.98v80.41h56.87q31.3 0 53.55 22.25 22.24 22.24 22.24 53.54v537.24q0 31.3-22.24 53.54Q776.84-100 745.54-100H214.46Zm0-51.18h531.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-376h-580.3v376q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69Zm-24.61-451.79h580.3v-110.06q0-9.23-7.69-16.92-7.69-7.69-16.92-7.69H214.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v110.06Zm0 0V-737.64-602.97Zm290.02 213.12q-13.59 0-24.11-10.65-10.53-10.65-10.53-24.24 0-13.59 10.66-24.12 10.65-10.52 24.24-10.52 13.59 0 24.11 10.65 10.53 10.65 10.53 24.24 0 13.59-10.66 24.12-10.65 10.52-24.24 10.52ZM295.76-400.5q-10.53-10.65-10.53-24.24 0-13.59 10.66-24.12 10.65-10.52 24.24-10.52 13.59 0 24.11 10.65 10.53 10.65 10.53 24.24 0 13.59-10.66 24.12-10.65 10.52-24.24 10.52-13.59 0-24.11-10.65Zm344.11 10.65q-13.59 0-24.11-10.65-10.53-10.65-10.53-24.24 0-13.59 10.66-24.12 10.65-10.52 24.24-10.52 13.59 0 24.11 10.65 10.53 10.65 10.53 24.24 0 13.59-10.66 24.12-10.65 10.52-24.24 10.52ZM479.87-236q-13.59 0-24.11-10.65-10.53-10.66-10.53-24.25t10.66-24.11q10.65-10.53 24.24-10.53 13.59 0 24.11 10.66 10.53 10.65 10.53 24.24 0 13.59-10.66 24.11Q493.46-236 479.87-236Zm-184.11-10.65q-10.53-10.66-10.53-24.25t10.66-24.11q10.65-10.53 24.24-10.53 13.59 0 24.11 10.66 10.53 10.65 10.53 24.24 0 13.59-10.66 24.11Q333.46-236 319.87-236q-13.59 0-24.11-10.65ZM639.87-236q-13.59 0-24.11-10.65-10.53-10.66-10.53-24.25t10.66-24.11q10.65-10.53 24.24-10.53 13.59 0 24.11 10.66 10.53 10.65 10.53 24.24 0 13.59-10.66 24.11Q653.46-236 639.87-236Z"/></svg></span>
-                <span>{date}</span>
-            </span>
+            <button class="shrink-0 px-3 py-1 text-xs font-medium text-blue-500">View More</button>
 
         </div>
 
     </div>
 
 </body>
+
 <style>
-    span[data-status="pending"]{
-        background-color: rgb(255, 255, 0);
-        color: black;
+    /* Description animation */
+    .desc {
+        transition: max-height 0.4s ease, opacity 0.3s ease;
+        opacity: 0.85;
     }
 
-    span[data-status="rejected"]{
-        background-color: rgb(255, 107, 107);
-        color: white;
+    .group:hover .desc {
+        opacity: 1;
     }
 
-    span[data-status="resolved"]{
-        background-color: rgb(111, 255, 85);
-        color: green;
+    /* Status Badge Base */
+    span[data-status] {
+        font-weight: 500;
+        border-radius: 9999px;
+        padding: 2px 10px;
+        font-size: 12px;
+        border: 1px solid transparent;
+    }
+
+    /* Pending */
+    span[data-status="pending"] {
+        background: rgba(251, 191, 36, 0.12);
+        color: rgb(161, 98, 7);
+        border-color: rgba(251, 191, 36, 0.25);
+    }
+
+    /* In Progress */
+    span[data-status="progress"] {
+        background: rgba(59, 130, 246, 0.12);
+        color: rgb(30, 64, 175);
+        border-color: rgba(59, 130, 246, 0.25);
+    }
+
+    /* Resolved */
+    span[data-status="resolved"] {
+        background: rgba(34, 197, 94, 0.12);
+        color: rgb(21, 128, 61);
+        border-color: rgba(34, 197, 94, 0.25);
+    }
+
+    /* Rejected */
+    span[data-status="rejected"] {
+        background: rgba(239, 68, 68, 0.12);
+        color: rgb(153, 27, 27);
+        border-color: rgba(239, 68, 68, 0.25);
     }
 </style>
-<script>
-    function toggleDesc(_this) {
-        const desc = _this.querySelector(".desc");
 
-        if (desc.style.maxHeight && desc.style.maxHeight !== "3em") {
-            desc.style.maxHeight = "3em";
-        } else {
-            desc.style.maxHeight = desc.scrollHeight + "px";
-        }
+<script>
+    function toggleDesc(card) {
+        const desc = card.querySelector(".desc");
+        const isExpanded = desc.style.maxHeight && desc.style.maxHeight !== "3em";
+
+        desc.style.maxHeight = isExpanded ? "3em" : desc.scrollHeight + "px";
     }
 </script>

@@ -6,7 +6,6 @@
 }
 
 .slot::-webkit-scrollbar {
-    background-color: rgb(218, 214, 214);
     width: 8px;
 }
 

@@ -1,6 +1,27 @@
+<import name="row" source="@/components/dashboard/card.nijor" />
+
 <head>
-    <title>Dashboard</title>
+    <title>Unibox</title>
 </head>
+
 <body layout="dashboard">
-    <h1>This is Admin Dashboard</h1>
+
+    <div class="border border-slate-200 shadow-sm font-sans text-sm">
+        
+        <div class="grid grid-cols-[7ch_22ch_minmax(0,1fr)_16ch_14ch_180px] bg-slate-100 border-b border-slate-200 font-bold text-slate-700">
+            <div class="p-4">ID</div>
+            <div class="p-4">Title</div>
+            <div class="p-4">Description & Image</div>
+            <div class="p-4">Scholar ID</div>
+            <div class="p-4">Status</div>
+            <div class="p-4 text-center">Actions</div>
+        </div>
+
+        <div class="divide-y divide-slate-200">
+            <row id="3121" title="Fan Slow" desc="Fan in 110E is very slow ; Capacitor dead" scholar_id="25CS10067" status="pending" img="/images/logo.svg"></row>
+            <row id="4322" title="Broken Toilet Seats" desc="Toilets in East block 1st floor are broken" scholar_id="25CS10067" status="resolved" img="null"></row>
+        </div>
+
+    </div>
+
 </body>
