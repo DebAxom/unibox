@@ -1,4 +1,4 @@
-# <img src="./logo.svg" alt="ৰাde" width="20px" height="20px"/> Unibox : The Unified Complaint Box for Universities
+# <img src="./logo.svg" alt="ৰাde" width="20px" height="20px"/> Unibox
 
 **Unibox** is a smart campus issue management system designed to bridge the communication gap between students and university administrations. It centralizes fragmented complaints—from leaky hostel pipes to mess food quality—and uses automated routing to ensure the right department sees the right issue at the right time.
 
