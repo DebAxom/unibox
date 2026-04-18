@@ -1,17 +1,51 @@
 @import "tailwindcss";
 
-body{
-  display:flex;
-  flex-direction:column;
-  height:100vh;
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
-#app{
-  @apply flex flex-col h-dvh;
+#app {
+    @apply flex flex-col h-dvh;
 }
 
 @layer base {
-  html {
-    font-feature-settings: "lnum";
-  }
+    html {
+        font-feature-settings: "lnum";
+    }
+}
+
+/* ALertBox */
+
+#alertbox {
+    @apply hidden fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm;
+}
+
+#alertbox .box {
+    @apply w-80 md:w-96 bg-white rounded shadow-xl p-6 flex flex-col gap-4;
+}
+
+#alertbox h1 {
+    @apply text-lg font-semibold text-gray-800;
+}
+
+#alertbox p {
+    @apply text-sm text-gray-500;
+}
+
+#alertbox textarea {
+    @apply w-full border border-gray-300 rounded-lg p-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-400;
+}
+
+#alertbox .btns {
+    @apply flex justify-end gap-2 mt-2;
+}
+
+#alertbox .btn-a {
+    @apply text-blue-500 font-semibold text-sm px-4 py-2 cursor-pointer;
+}
+
+#alertbox .btn-b {
+    @apply text-red-500 font-semibold text-sm px-4 py-2 cursor-pointer;
 }

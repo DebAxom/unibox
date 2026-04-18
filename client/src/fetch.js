@@ -103,9 +103,9 @@ export async function Post(endpoint, body = {}) {
     return res.json();
 }
 
-export async function Put(endpoint, body = {}) {
+export async function Patch(endpoint, body = {}) {
     const res = await Fetch(endpoint, {
-        method: "PUT",
+        method: "PATCH",
         body,
     });
     return res.json();

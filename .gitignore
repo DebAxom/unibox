@@ -2,6 +2,7 @@ api/.env
 client/.env
 client/node_modules
 client/assets/modules
+client/assets/uploads
 client/assets/style.css
 client/assets/tw.css
 volume/

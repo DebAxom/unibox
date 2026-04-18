@@ -9,7 +9,7 @@ var deptKeywords = map[string][]string{
 	"hostel": {
 		"fan", "light", "electricity", "water", "bathroom", "room",
 		"lan", "wifi", "mess", "food", "clean", "hostel", "refund", "vending",
-		"commode", "jetspray", "hanger",
+		"commode", "jetspray", "hanger", "block",
 	},
 	"academic": {
 		"class", "lecture", "exam", "attendance", "teacher",
@@ -63,12 +63,12 @@ var hostels = map[string]string{
 func RouteComplain(user models.User, title string, desc string) string {
 	dept := classifyDept(title, desc)
 
-	if dept == "hostel" {
-		dept = hostels[strings.ToLower(user.Hostel)]
+	if dept == "none" {
+		dept = "hostel"
 	}
 
-	if dept == "none" {
-		dept = "sw"
+	if dept == "hostel" {
+		dept = hostels[strings.ToLower(user.Hostel)]
 	}
 
 	return dept

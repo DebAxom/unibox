@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS admins (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Admins
+-- Admins password : joiaiaxom
 INSERT INTO admins (id, username, password, dept) VALUES ('x2d-23d-325-32s', 'dean.academic', '$2a$12$RAAbzbfK7RJ/1qCThd9bee9/gxDYfPolOAwYV4fj2Potggg.Qd1tm', 'academic');
 INSERT INTO admins (id, username, password, dept) VALUES ('xic-cfg-klt-sde', 'registrar', '$2a$12$RAAbzbfK7RJ/1qCThd9bee9/gxDYfPolOAwYV4fj2Potggg.Qd1tm', 'accounts');
 INSERT INTO admins (id, username, password, dept) VALUES ('sku-3er-4rf-wet', 'dean.sw', '$2a$12$RAAbzbfK7RJ/1qCThd9bee9/gxDYfPolOAwYV4fj2Potggg.Qd1tm', 'sw');

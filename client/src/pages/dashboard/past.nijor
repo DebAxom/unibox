@@ -6,7 +6,7 @@
 
 <body layout="dashboard">
 
-    <p class="text-sm text-gray-500 my-4">Active Issues : <span class="font-semibold text-gray-900">{$.rows.length}</span></p>
+    <p class="text-sm text-gray-500 my-4">Issues Resolved/Rejected : <span class="font-semibold text-gray-900">{$.rows.length}</span></p>
 
     <div class="flex flex-col gap-2" n:loop var="x" source="$.rows">
         <issue title="{x.Title}" desc="{x.Desc}" dept="{x.Dept}" id="{x.Id}" issuer="{x.Issuer}" scholar_id="{x.Scholar_id}" status="{x.Status}" timestamp="{x.Updated_at}" img="{x.Img}"></issue>
@@ -19,5 +19,5 @@
     $.rows = [];
 </script>
 <script defer>
-    Get("/api/issues/unresolved").then(({data}) => $.rows = data).catch(err=>$.rows=[]);
+    Get("/api/issues/resolved").then(({data}) => $.rows = data).catch(err=>$.rows=[]);
 </script>

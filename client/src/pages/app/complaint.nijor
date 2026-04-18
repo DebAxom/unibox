@@ -43,7 +43,7 @@
     async function Submit(event,_this){
         event.preventDefault();
         const formData = new FormData(_this);
-        const res = await Post('/api/issue',formData);
+        await Post('/api/issue',formData);
         return window.nijor.redirect("/app");
     }
 

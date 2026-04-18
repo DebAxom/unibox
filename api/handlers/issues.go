@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"fmt"
+	"os"
+	"path"
 	"path/filepath"
 	"unibox/db"
 	"unibox/models"
@@ -45,7 +47,11 @@ func (h *Issue) Create(c fiber.Ctx) error {
 
 		img_url = fmt.Sprintf("%s%s", id, filepath.Ext(file.Filename))
 
-		err = c.SaveFile(file, "./uploads/"+img_url)
+		cwd, _ := os.Getwd()
+		parent := filepath.Dir(cwd)
+		uploads := path.Join(parent, "client/assets/uploads")
+
+		err = c.SaveFile(file, path.Join(uploads, img_url))
 		if err != nil {
 			return c.Status(500).SendString("Failed to save image !")
 		}
@@ -70,7 +76,7 @@ func (h *Issue) Create(c fiber.Ctx) error {
 		return c.SendStatus(500)
 	}
 
-	return c.SendStatus(200)
+	return c.Status(200).JSON(fiber.Map{"dept": dept})
 }
 
 func (h *Issue) Get(c fiber.Ctx) error {
@@ -85,13 +91,42 @@ func (h *Issue) Get(c fiber.Ctx) error {
 		return c.JSON(fiber.Map{"data": issues})
 	}
 
+	return c.SendStatus(404)
+}
+
+func (h *Issue) GetResolved(c fiber.Ctx) error {
+	role := c.Locals("role").(string)
+	user_id := c.Locals("user_id").(string)
+
 	if role == "admin" {
 		admin, err := db.GetAdminById(h.DB, c.Context(), user_id)
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 		}
 
-		issues, err := db.GetIssuesDept(h.DB, c.Context(), admin.Department)
+		issues, err := db.GetIssuesResolved(h.DB, c.Context(), admin.Department)
+		if err != nil {
+			return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+		}
+
+		return c.JSON(fiber.Map{"data": issues})
+
+	}
+
+	return c.SendStatus(404)
+}
+
+func (h *Issue) GetUnresolved(c fiber.Ctx) error {
+	role := c.Locals("role").(string)
+	user_id := c.Locals("user_id").(string)
+
+	if role == "admin" {
+		admin, err := db.GetAdminById(h.DB, c.Context(), user_id)
+		if err != nil {
+			return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+		}
+
+		issues, err := db.GetIssuesUnresolved(h.DB, c.Context(), admin.Department)
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 		}
@@ -120,15 +155,142 @@ func (h *Issue) Update(c fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
 	}
 
-	// adminId := c.Locals("user_id").(string)
-
-	// admin, err := db.GetAdminById(h.DB, c.Context(), adminId)
-
-	// if err != nil {
-	// 	return c.SendStatus(500)
-	// }
-
-	// if admin.Department ==
-
 	return c.SendStatus(404)
+}
+
+func (h *Issue) Reject(c fiber.Ctx) error {
+	role := c.Locals("role").(string)
+	adminID := c.Locals("user_id").(string)
+	issueID := c.Params("id")
+
+	if role != "admin" {
+		return c.SendStatus(404)
+	}
+
+	admin, err := db.GetAdminById(h.DB, c.Context(), adminID)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	// Get issue dept + status
+	query := `SELECT issuer, status, dept FROM issues WHERE id = $1`
+
+	var issue models.Issue
+	err = h.DB.QueryRow(c.Context(), query, issueID).Scan(
+		&issue.Issuer,
+		&issue.Status,
+		&issue.Dept,
+	)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	// Check department access
+	if admin.Department != issue.Dept {
+		return c.Status(403).JSON(fiber.Map{
+			"error": "This issue doesn't belong to your department !",
+		})
+	}
+
+	updateQuery := `UPDATE issues SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`
+
+	_, err = h.DB.Exec(c.Context(), updateQuery, "rejected", issueID)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(fiber.Map{"id": issueID})
+
+}
+
+func (h *Issue) Progress(c fiber.Ctx) error {
+	role := c.Locals("role").(string)
+	adminID := c.Locals("user_id").(string)
+	issueID := c.Params("id")
+
+	if role != "admin" {
+		return c.SendStatus(404)
+	}
+
+	admin, err := db.GetAdminById(h.DB, c.Context(), adminID)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	// Get issue dept + status
+	query := `SELECT issuer, status, dept FROM issues WHERE id = $1`
+
+	var issue models.Issue
+	err = h.DB.QueryRow(c.Context(), query, issueID).Scan(
+		&issue.Issuer,
+		&issue.Status,
+		&issue.Dept,
+	)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	// Check department access
+	if admin.Department != issue.Dept {
+		return c.Status(403).JSON(fiber.Map{
+			"error": "This issue doesn't belong to your department !",
+		})
+	}
+
+	updateQuery := `UPDATE issues SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`
+
+	_, err = h.DB.Exec(c.Context(), updateQuery, "progress", issueID)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(fiber.Map{"id": issueID})
+}
+
+func (h *Issue) Resolve(c fiber.Ctx) error {
+	role := c.Locals("role").(string)
+	adminID := c.Locals("user_id").(string)
+	issueID := c.Params("id")
+
+	if role != "admin" {
+		return c.SendStatus(404)
+	}
+
+	admin, err := db.GetAdminById(h.DB, c.Context(), adminID)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	// Get issue dept + status
+	query := `SELECT issuer, status, dept FROM issues WHERE id = $1`
+
+	var issue models.Issue
+	err = h.DB.QueryRow(c.Context(), query, issueID).Scan(
+		&issue.Issuer,
+		&issue.Status,
+		&issue.Dept,
+	)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	// Check department access
+	if admin.Department != issue.Dept {
+		return c.Status(403).JSON(fiber.Map{
+			"error": "This issue doesn't belong to your department !",
+		})
+	}
+
+	// Update status to rejected
+	updateQuery := `UPDATE issues SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`
+
+	_, err = h.DB.Exec(c.Context(), updateQuery, "resolved", issueID)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(fiber.Map{"id": issueID})
 }

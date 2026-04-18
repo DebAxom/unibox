@@ -58,7 +58,7 @@ func main() {
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowMethods:     []string{"GET", "POST", "PATCH", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		AllowCredentials: true,
 	}))
@@ -79,6 +79,11 @@ func main() {
 	api.Get("/", ProfileHandler.Init)
 	api.Post("/issue", IssueHandler.Create)
 	api.Get("/issues", IssueHandler.Get)
+	api.Get("/issues/resolved", IssueHandler.GetResolved)
+	api.Get("/issues/unresolved", IssueHandler.GetUnresolved)
+	api.Patch("/issue/:id/reject", IssueHandler.Reject)
+	api.Patch("/issue/:id/progress", IssueHandler.Progress)
+	api.Patch("/issue/:id/resolved", IssueHandler.Resolve)
 
 	app.Listen(":5000", fiber.ListenConfig{EnablePrefork: false})
 
