@@ -9,34 +9,70 @@
       <p class="text-gray-500">Admins can login only on desktop</p>
     </div>
 
-    <form class="space-y-4 mt-10">
+    <form class="space-y-4 mt-10" on:submit="return login(event,this)">
 
       <div class="relative">
-        <input type="text" autocomplete="off" placeholder="@username" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+        <input type="text" name="username" autocomplete="off" placeholder="@username" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
       </div>
 
       <div class="relative">
-        <input type="password" autocomplete="off" placeholder="Password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
+        <input type="password" name="password" autocomplete="off" placeholder="Password" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:outline-none" required />
       </div>
 
-      <button type="submit" class="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">Login</button>
+      <button type="submit" class="submit-btn w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">Login</button>
       
-      <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2" data-error="{$.error}">{$.error}</p>
+      <p class="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 error">{$.error}</p>
+      
     </form>
 
   </div>
 </body>
 
-
 <style>
-  p[data-error=""]{
+  .error:empty{
     display: none;
+  }
+
+  .submit-btn:disabled{
+    background-color: #d1d5dc;
+    color: white;
   }
 </style>
 
 <script>
     $.error = "";
-    
+
+    async function login(event,_this,$) {
+        event.preventDefault();
+        const submitBtn = _this.getElementsByClassName('submit-btn')[0];
+        submitBtn.setAttribute('disabled', true);
+
+        const formData = new FormData(_this);
+        const username = formData.get("username").toLowerCase().slice(1);
+        const password = formData.get("password");
+
+        const body = { username , password };
+        console.log(body);
+
+        const res = await fetch("http://localhost:5000/auth/login/admin", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
+
+        const data = await res.json();
+
+        if (data.access_token) {
+            window.location.href = "/dashboard" ;
+        } else {
+            $.error = `Error : ${data.error}`;
+        }
+
+        submitBtn.removeAttribute('disabled');
+        return false;
+    }
+
 </script>
 <script defer>
     if (window.innerWidth < 768) {

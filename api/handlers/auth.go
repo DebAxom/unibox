@@ -97,7 +97,7 @@ func (h *Auth) RegisterUser(c fiber.Ctx) error {
 	h.RDB.Del(c.Context(), key) // Delete OTP after verification
 	// Handling OTP ends here
 
-	id := uuid.New().String() + time.Now().String()
+	id := uuid.New().String()
 
 	hashedPassword, err := HashPassword(body.Password)
 
@@ -171,7 +171,7 @@ func (h *Auth) LogInUser(c fiber.Ctx) error {
 
 	user, err := db.GetUserByEmail(h.DB, c.Context(), body.Email)
 	if err != nil {
-		return c.Status(401).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(401).JSON(fiber.Map{"error": "Account doesn't exist !"})
 	}
 
 	if !CheckPassword(user.Password, body.Password) {

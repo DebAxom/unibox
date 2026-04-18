@@ -14,10 +14,11 @@ func CreateAdmin(db *pgxpool.Pool, c context.Context, admin models.Admin) error 
 }
 
 func GetAdminById(db *pgxpool.Pool, c context.Context, id string) (models.Admin, error) {
-	query := `SELECT id, username, name, password, department, token_version FROM admins WHERE id = $1`
+	query := `SELECT id, username, password, dept, token_version FROM admins WHERE id = $1`
+
 	var admin models.Admin
 
-	err := db.QueryRow(c, query, id).Scan(&admin.Id, &admin.Username, &admin.Name, &admin.Password, &admin.Department, &admin.TokenVersion)
+	err := db.QueryRow(c, query, id).Scan(&admin.Id, &admin.Username, &admin.Password, &admin.Department, &admin.TokenVersion)
 
 	if err != nil {
 		return models.Admin{}, err
@@ -27,10 +28,12 @@ func GetAdminById(db *pgxpool.Pool, c context.Context, id string) (models.Admin,
 }
 
 func GetAdminByUsername(db *pgxpool.Pool, c context.Context, username string) (models.Admin, error) {
-	query := `SELECT id, username, name, password, department, token_version FROM admins WHERE id = $1`
+
+	query := `SELECT id, username, password, dept, token_version FROM admins WHERE username = $1`
+
 	var admin models.Admin
 
-	err := db.QueryRow(c, query, username).Scan(&admin.Id, &admin.Username, &admin.Name, &admin.Password, &admin.Department, &admin.TokenVersion)
+	err := db.QueryRow(c, query, username).Scan(&admin.Id, &admin.Username, &admin.Password, &admin.Department, &admin.TokenVersion)
 
 	if err != nil {
 		return models.Admin{}, err

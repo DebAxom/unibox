@@ -78,7 +78,7 @@
     });
 
     $.hostels = ['Select Hostel'];
-    const male_hostels = ['ABH', 'BH3', 'BH4', 'BH8'];
+    const male_hostels = ['ABH', 'BH8'];
     const female_hostels = ['GH1', 'GH3'];
 
     async function HandleSubmit(event,_this,$) {

@@ -1,0 +1,66 @@
+<body props="{ id, title, desc, status, timestamp, scholar_id, img }">
+
+    <div class="relative bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition">
+
+        <div class="flex justify-between items-start gap-4">
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">{title}</h3>
+                <div class="flex items-center gap-3 mt-1 text-sm text-gray-400">
+                    <span class="font-medium text-gray-600">Complainer : {scholar_id}</span>
+                </div>
+            </div>
+
+            <span class="shrink-0 px-3 py-1 text-xs font-medium rounded-full flex">
+                <span><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="black"><path d="M480.87-147.27q-69.14 0-129.62-26.21-60.48-26.21-105.58-71.31-45.09-45.1-71.3-105.55-26.21-60.46-26.21-129.64 0-69.17 26.21-129.65 26.21-60.48 71.35-105.48 45.14-44.99 105.88-71.31 60.75-26.31 129.85-26.31 73.65 0 139.3 30.93t113.67 86.76V-789h55.96v194.19H596.19v-55.96h102.19q-40.57-49.08-96.68-77.54-56.1-28.46-120.03-28.46-116.11 0-196.83 80.56-80.72 80.55-80.72 196.07 0 115.51 80.59 196.21 80.6 80.7 196.32 80.7 103.53 0 180.69-67.54t92.32-170.04h57.19q-14.81 126.5-109.12 210.02-94.31 83.52-221.24 83.52Zm117.32-175.69L453.31-468.55v-207.41h55.96v184.61l128.65 128.66-39.73 39.73Z"/></svg></span>
+                <span>{formatDateTime(timestamp)}</span>
+            </span>
+
+        </div>
+
+        <div class="mt-2 flex items-start gap-4">
+
+            <p class="text-sm text-gray-600 leading-relaxed flex-1">{desc}</p>
+            <img src="{img}" onclick="window.open('{img}', '_blank')" class:hidden="{img == 'null'}" class="w-24 h-24 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition shrink-0" />
+
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-4 flex gap-2 flex-wrap">
+            <button class:hidden="{status!='pending'}" class="px-3 py-1 text-xs rounded-md bg-blue-100 text-blue-600 hover:bg-blue-200 transition">Start</button>
+            <button class:hidden="{status!='progress'}" class="px-3 py-1 text-xs rounded-md bg-green-100 text-green-600 hover:bg-green-200 transition">Resolve</button>
+            <button class:hidden="{status!='pending'}" class="px-3 py-1 text-xs rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 transition">Reroute</button>
+            <button class:hidden="{status!='pending' && status!='progress'}" class="px-3 py-1 text-xs rounded-md bg-red-100 text-red-600 hover:bg-red-200 transition">Reject</button>
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+
+    function formatDateTime(timestamp) {
+        const d = new Date(timestamp);
+
+        const hours = d.getHours();
+        const minutes = d.getMinutes();
+
+        const ampm = hours >= 12 ? "PM" : "AM";
+        const hour12 = hours % 12 || 12; // convert 0 → 12
+
+        const pad = (n) => n.toString().padStart(2, "0");
+
+        const day = d.getDate();
+        const year = d.getFullYear();
+
+        const months = [
+            "January","February","March","April","May","June",
+            "July","August","September","October","November","December"
+        ];
+
+        const monthName = months[d.getMonth()];
+
+        return `${pad(hour12)}:${pad(minutes)} ${ampm} ${day} ${monthName} ${year}`;
+    }
+
+</script>

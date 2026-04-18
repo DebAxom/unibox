@@ -21,9 +21,12 @@ export async function Fetch(endpoint, options = {}, retry = true) {
     const url = `${baseUrl}${endpoint}`;
 
     const headers = {
-        "Content-Type": "application/json",
         ...(options.headers || {}),
     };
+
+    if (!(options.body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+    }
 
     // Attach access token
     if (_accessToken) {
@@ -47,17 +50,17 @@ export async function Fetch(endpoint, options = {}, retry = true) {
                 if (!res.ok) throw new Error("Refresh failed");
                 return res.json();
             })
-            .then(data => {
-                _accessToken = data.access_token;
-                return _accessToken;
-            })
-            .catch(err => {
-                _accessToken = "";
-                throw err;
-            })
-            .finally(() => {
-                refreshPromise = null;
-            });
+                .then(data => {
+                    _accessToken = data.access_token;
+                    return _accessToken;
+                })
+                .catch(err => {
+                    _accessToken = "";
+                    throw err;
+                })
+                .finally(() => {
+                    refreshPromise = null;
+                });
         }
 
         try {
@@ -95,7 +98,7 @@ export async function Get(endpoint) {
 export async function Post(endpoint, body = {}) {
     const res = await Fetch(endpoint, {
         method: "POST",
-        body: JSON.stringify(body),
+        body,
     });
     return res.json();
 }
@@ -103,7 +106,7 @@ export async function Post(endpoint, body = {}) {
 export async function Put(endpoint, body = {}) {
     const res = await Fetch(endpoint, {
         method: "PUT",
-        body: JSON.stringify(body),
+        body,
     });
     return res.json();
 }

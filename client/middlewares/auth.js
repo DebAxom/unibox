@@ -25,13 +25,13 @@ export default function (req, res, next) {
     }
 
     // Restrict dashboard/
-    // if (url.startsWith('/dashboard') || url.startsWith('/modules/pages/dashboard-') || url === "/modules/layouts/dashboard.js") {
-    //     if (!verified || role !== "admin") {
-    //         res.statusCode = 302;
-    //         res.setHeader("Location", "/auth/admin");
-    //         return res.end();
-    //     }
-    // }
+    if (url.startsWith('/dashboard') || url.startsWith('/modules/pages/dashboard-') || url === "/modules/layouts/dashboard.js") {
+        if (!verified || role !== "admin") {
+            res.statusCode = 302;
+            res.setHeader("Location", "/auth/admin");
+            return res.end();
+        }
+    }
 
     next();
 }

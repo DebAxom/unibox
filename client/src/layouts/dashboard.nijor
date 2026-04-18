@@ -2,14 +2,26 @@
 <import name="header" source="@/components/dashboard/header.nijor"/>
 
 <body>
-    <div class="w-full flex flex-row">
+    <div class="w-full flex flex-row h-full">
         <sidebar></sidebar>
-        <div class="w-4/5 bg-white flex flex-col h-screen">
-            <header dept="{admin?.dept || 'Unknown Department'}" admin="{admin?.name}"></header>
-            <div n:slot class="slot overflow-y-auto p-6 max-h-full"></div>
+        <div class="w-4/5 bg-white flex flex-col h-full">
+            <header dept="{department}" admin="{admin?.username}"></header>
+            <div n:slot class="slot overflow-y-auto p-6 flex flex-col"></div>
         </div>
     </div>
 </body>
 <script>
     const admin = window.currentUser;
+    
+    const depts = {
+        'hostel-abh' : 'Hostel ABH',
+        'hostel-bh8' : 'Hostel BH8',
+        'hostel-gh1' : 'Hostel GH1',
+        'hostel-gh3' : 'Hostel GH3',
+        'accounts'   : 'Accounts Department',
+        'sw'         : 'Student Welfare',
+        'academic'   : 'Academic Department'
+    };
+
+    const department = depts[admin?.dept];
 </script>

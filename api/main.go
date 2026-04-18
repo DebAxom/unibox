@@ -74,8 +74,11 @@ func main() {
 	auth.Post("/refresh", AuthHandler.Refresh)
 
 	ProfileHandler := &handlers.Profile{DB: db}
+	IssueHandler := &handlers.Issue{DB: db}
 	api := app.Group("/api", middlewares.Auth(db))
-	api.Get("/me", ProfileHandler.Me)
+	api.Get("/", ProfileHandler.Init)
+	api.Post("/issue", IssueHandler.Create)
+	api.Get("/issues", IssueHandler.Get)
 
 	app.Listen(":5000", fiber.ListenConfig{EnablePrefork: false})
 

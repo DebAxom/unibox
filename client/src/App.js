@@ -13,7 +13,7 @@ async function init(){
 window.refreshUser = async function () {
     try {
         await init();
-        const data = await Get("/api/me");
+        const data = await Get("/api/");
         window.currentUser = data;
     } catch (error) {
         window.currentUser = null;
@@ -23,7 +23,7 @@ window.refreshUser = async function () {
 (async()=>{
     try {
         await init();
-        const data = await Get("/api/me");
+        const data = await Get("/api/");
         window.currentUser = data;
     } catch (error) {
         window.currentUser = null;

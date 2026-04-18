@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS issues (
+  id TEXT PRIMARY KEY,
+  issuer TEXT,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  img TEXT,
+  status TEXT NOT NULL,
+  dept TEXT NOT NULL,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

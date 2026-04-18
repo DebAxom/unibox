@@ -17,12 +17,16 @@
             </a> 
         </div>
 
-        <div class="flex flex-col gap-4">
-            <issue title="Fan Not Working" desc="Fan is not at all working !" dept="Hostel ABH" id="3209" status="pending" date="12 Dec 2026"></issue>
-            <issue title="Lan Not Working" desc="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur numquam magnam voluptates aliquid recusandae, veritatis sunt quaerat optio, dolorem illo quas aliquam repellendus, labore neque temporibus error harum! Similique, repudiandae! Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic illum, praesentium voluptates accusantium maiores eos ipsam atque recusandae deleniti necessitatibus rem totam voluptas soluta vel impedit quo quis! Sint, perferendis." dept="Hostel ABH" id="7131" status="resolved" date="12 Dec 2026"></issue>
-            <issue title="Add AC" desc="We need ACs !" dept="Hostel ABH" id="3209" status="rejected" date="12 Dec 2026"></issue>
-            <issue title="Broken Toilet" desc="The toilets in the Aryabhatta East Block 1st floor are broken !" dept="Hostel ABH" id="4343" status="progress" date="12 Dec 2026"></issue>
+        <div class="flex flex-col gap-4" n:loop var="x" source="$.rows">
+            <issue title="{x.Title}" desc="{x.Desc}" dept="{x.Dept}" id="{x.Id}" status="{x.Status}" updated_at="{x.Updated_at}"></issue>
         </div>
 
     </div>
 </body>
+<script>
+    import { Get } from "@/fetch";
+    $.rows = [];
+</script>
+<script defer>
+    Get("/api/issues").then(({data}) => $.rows = data).catch(err=>$.rows=[]);
+</script>

@@ -11,7 +11,7 @@ type Profile struct {
 	DB *pgxpool.Pool
 }
 
-func (h *Profile) Me(c fiber.Ctx) error {
+func (h *Profile) Init(c fiber.Ctx) error {
 	userId := c.Locals("user_id").(string)
 	role := c.Locals("role").(string)
 
@@ -24,13 +24,13 @@ func (h *Profile) Me(c fiber.Ctx) error {
 		return c.Status(200).JSON(fiber.Map{"id": userId, "role": role, "name": user.Name, "email": user.Email, "scholar_id": user.ScholarID, "gender": user.Gender, "hostel": user.Hostel})
 	}
 
-	if role == "user" {
+	if role == "admin" {
 		admin, err := db.GetAdminById(h.DB, c.Context(), userId)
 		if err != nil {
 			return err
 		}
 
-		return c.Status(200).JSON(fiber.Map{"id": userId, "role": role, "name": admin.Name, "dept": admin.Department})
+		return c.Status(200).JSON(fiber.Map{"id": userId, "role": role, "username": admin.Username, "dept": admin.Department})
 	}
 
 	return c.SendStatus(404)

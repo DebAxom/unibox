@@ -1,4 +1,4 @@
-<body props="{ id, title, desc, status, dept, date }">
+<body props="{ id, title, desc, status, dept, updated_at }">
 
     <div on:click="toggleDesc(this)" class="relative group cursor-pointer bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:bg-white/90 active:scale-[0.99]transition-all duration-300">
 
@@ -7,30 +7,23 @@
             <span class="shrink-0 px-3 py-1 text-xs font-medium rounded-full capitalize" data-status="{status}">{status}</span>
         </div>
 
-        <!-- Description -->
 		<p class="desc mt-2 text-sm text-gray-500 overflow-hidden max-h-[3em] transition-all duration-300 ease-in-out text-justify">{desc}</p>
 
-        <!-- Bottom Meta -->
         <div class="mt-4 flex items-center justify-between text-xs text-gray-400">
 
             <div class="flex items-center gap-5">
-
-                <span class="flex items-center gap-1">
-                    <span>#{id}</span>
-                </span>
-
+                
                 <span class="flex items-center gap-1">
                     <span><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#6a7282"><path d="M200-451v-58h267.93l192.76-193H530v-58h230v230h-58v-130.69L492.31-451H200Zm330 251v-58h132.69L535.54-388.69l36.77-36.77L702-299.31V-430h58v230H530Z"/></svg></span>
                     <span>{dept}</span>
                 </span>
 
                 <span class="flex items-center gap-1">
-                    <span><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#6a7282"><path d="M214.46-100q-31.3 0-53.55-22.25-22.24-22.24-22.24-53.54v-537.24q0-31.3 22.24-53.54 22.25-22.25 53.55-22.25h57.39v-80.41h55.53v80.41h308.31v-80.41h52.98v80.41h56.87q31.3 0 53.55 22.25 22.24 22.24 22.24 53.54v537.24q0 31.3-22.24 53.54Q776.84-100 745.54-100H214.46Zm0-51.18h531.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-376h-580.3v376q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69Zm-24.61-451.79h580.3v-110.06q0-9.23-7.69-16.92-7.69-7.69-16.92-7.69H214.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v110.06Zm0 0V-737.64-602.97Zm290.02 213.12q-13.59 0-24.11-10.65-10.53-10.65-10.53-24.24 0-13.59 10.66-24.12 10.65-10.52 24.24-10.52 13.59 0 24.11 10.65 10.53 10.65 10.53 24.24 0 13.59-10.66 24.12-10.65 10.52-24.24 10.52ZM295.76-400.5q-10.53-10.65-10.53-24.24 0-13.59 10.66-24.12 10.65-10.52 24.24-10.52 13.59 0 24.11 10.65 10.53 10.65 10.53 24.24 0 13.59-10.66 24.12-10.65 10.52-24.24 10.52-13.59 0-24.11-10.65Zm344.11 10.65q-13.59 0-24.11-10.65-10.53-10.65-10.53-24.24 0-13.59 10.66-24.12 10.65-10.52 24.24-10.52 13.59 0 24.11 10.65 10.53 10.65 10.53 24.24 0 13.59-10.66 24.12-10.65 10.52-24.24 10.52ZM479.87-236q-13.59 0-24.11-10.65-10.53-10.66-10.53-24.25t10.66-24.11q10.65-10.53 24.24-10.53 13.59 0 24.11 10.66 10.53 10.65 10.53 24.24 0 13.59-10.66 24.11Q493.46-236 479.87-236Zm-184.11-10.65q-10.53-10.66-10.53-24.25t10.66-24.11q10.65-10.53 24.24-10.53 13.59 0 24.11 10.66 10.53 10.65 10.53 24.24 0 13.59-10.66 24.11Q333.46-236 319.87-236q-13.59 0-24.11-10.65ZM639.87-236q-13.59 0-24.11-10.65-10.53-10.66-10.53-24.25t10.66-24.11q10.65-10.53 24.24-10.53 13.59 0 24.11 10.66 10.53 10.65 10.53 24.24 0 13.59-10.66 24.11Q653.46-236 639.87-236Z"/></svg></span>
-                <span>{date}</span>
+                    <span><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#6a7282"><path d="M480.87-147.27q-69.14 0-129.62-26.21-60.48-26.21-105.58-71.31-45.09-45.1-71.3-105.55-26.21-60.46-26.21-129.64 0-69.17 26.21-129.65 26.21-60.48 71.35-105.48 45.14-44.99 105.88-71.31 60.75-26.31 129.85-26.31 73.65 0 139.3 30.93t113.67 86.76V-789h55.96v194.19H596.19v-55.96h102.19q-40.57-49.08-96.68-77.54-56.1-28.46-120.03-28.46-116.11 0-196.83 80.56-80.72 80.55-80.72 196.07 0 115.51 80.59 196.21 80.6 80.7 196.32 80.7 103.53 0 180.69-67.54t92.32-170.04h57.19q-14.81 126.5-109.12 210.02-94.31 83.52-221.24 83.52Zm117.32-175.69L453.31-468.55v-207.41h55.96v184.61l128.65 128.66-39.73 39.73Z"/></svg></span>
+                    <span>{formatDateTime(updated_at)}</span>
+                </span>
                 
             </div>
-
-            <button class="shrink-0 px-3 py-1 text-xs font-medium text-blue-500">View More</button>
 
         </div>
 
@@ -88,10 +81,35 @@
 </style>
 
 <script>
+    
     function toggleDesc(card) {
         const desc = card.querySelector(".desc");
         const isExpanded = desc.style.maxHeight && desc.style.maxHeight !== "3em";
-
         desc.style.maxHeight = isExpanded ? "3em" : desc.scrollHeight + "px";
     }
+
+    function formatDateTime(timestamp) {
+        const d = new Date(timestamp);
+
+        const hours = d.getHours();
+        const minutes = d.getMinutes();
+
+        const ampm = hours >= 12 ? "PM" : "AM";
+        const hour12 = hours % 12 || 12; // convert 0 → 12
+
+        const pad = (n) => n.toString().padStart(2, "0");
+
+        const day = d.getDate();
+        const year = d.getFullYear();
+
+        const months = [
+            "January","February","March","April","May","June",
+            "July","August","September","October","November","December"
+        ];
+
+        const monthName = months[d.getMonth()];
+
+        return `${pad(hour12)}:${pad(minutes)} ${ampm} ${day} ${monthName} ${year}`;
+    }
+
 </script>
