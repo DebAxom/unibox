@@ -1,7 +1,11 @@
 <body>
     <header class="w-full max-w-248 mx-auto sticky top-6 px-6 py-3 bg-white h-17.5 flex flex-row p-1.25 z-10 shrink-0 rounded-full">
-        <h1 class="my-auto font-bold text-2xl text-gray-800">Unibox</h1>
-        <a n:route="/app/profile" class="ml-auto my-auto w-8 h-8 flex items-center justify-center rounded-full bg-blue-300 text-black text-sm cursor-pointer">{display_name}</a>
+        <h1 class="my-auto font-bold text-2xl text-gray-800">{$.route==="/app/notifications" ? "Unibox / Notifications" : "Unibox"}</h1>
+        <div class="flex flex-row ml-auto h-full">
+            <a n:route="/app/notifications" class:hidden="{!$.new_notification}" class="my-auto mr-2.5 text-red-400"><svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="M479.93-92.31q-29.85 0-51.04-21.24-21.2-21.24-21.2-51.07h144.62q0 29.93-21.26 51.12-21.26 21.19-51.12 21.19Zm.07-405.38ZM180-204.62v-59.99h72.31v-298.47q0-80.69 49.81-142.69 49.8-62 127.88-79.31V-810q0-20.83 14.57-35.42Q459.14-860 479.95-860q20.82 0 35.43 14.58Q530-830.83 530-810v8q-9.85 17.77-15.62 36.15-5.77 18.39-7.07 38.16-6.83-1.23-13.32-2.16-6.48-.92-13.99-.92-69.46 0-118.58 49.12-49.11 49.11-49.11 118.57v298.47h335.38v-250.08q13.77 4.92 29.08 7.69 15.31 2.77 30.92 2.39v240H780v59.99H180Zm441.35-419.37q-32.12-32.07-32.12-77.89 0-45.81 32.07-77.93 32.07-32.11 77.88-32.11 45.82 0 77.93 32.07 32.12 32.07 32.12 77.88 0 45.82-32.07 77.93-32.07 32.12-77.89 32.12-45.81 0-77.92-32.07Z"/></svg></a>
+            <a n:route="/app/notifications" class:hidden="{$.new_notification}" class="my-auto mr-2.5 text-black"><svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor"><path d="M180-204.62v-59.99h72.31v-298.47q0-80.69 49.81-142.69 49.8-62 127.88-79.31V-810q0-20.83 14.57-35.42Q459.14-860 479.95-860q20.82 0 35.43 14.58Q530-830.83 530-810v24.92q78.08 17.31 127.88 79.31 49.81 62 49.81 142.69v298.47H780v59.99H180Zm300-293.07Zm-.07 405.38q-29.85 0-51.04-21.24-21.2-21.24-21.2-51.07h144.62q0 29.93-21.26 51.12-21.26 21.19-51.12 21.19Zm-167.62-172.3h335.38v-298.47q0-69.46-49.11-118.57-49.12-49.12-118.58-49.12-69.46 0-118.58 49.12-49.11 49.11-49.11 118.57v298.47Z"/></svg></a>
+            <a n:route="/app/profile" class="ml-auto my-auto w-8 h-8 flex items-center justify-center rounded-full bg-blue-300 text-black text-sm cursor-pointer">{display_name}</a>
+        </div>
     </header>
 </body>
 <style>
@@ -10,6 +14,34 @@
     }
 </style>
 <script>
+    import { Get } from "@/fetch";
+    import { onRoute } from "nijor/router";
+
     const initials = window.currentUser.name.trim().split(" ").filter(Boolean);
     const display_name = initials.length === 1 ? initials[0][0].toUpperCase() : (initials[0][0] + initials[initials.length - 1][0]).toUpperCase();
+    
+    $.new_notification = false;
+    $.route = window.location.pathname;
+
+    onRoute(r=> {
+        $.route = r;
+        if(r == "/app/notifications") $.new_notification = false;
+    });
+
+    async function checkNotifications() {
+        try {
+            const res = await Get("/api/new/notification");
+            $.new_notification = res.new === true;
+        } catch (err) {
+            console.error("notif poll error", err);
+        }
+    }
+
+    setInterval(() => {
+        if ($.route !== "/app/notifications") {
+            checkNotifications();
+        }
+    }, 5000);
+
+    checkNotifications();
 </script>

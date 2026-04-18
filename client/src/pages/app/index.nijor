@@ -17,6 +17,8 @@
             </a> 
         </div>
 
+        <p class="text-sm text-center text-gray-500 my-4">{$.rows.length > 0 ? "" : "No issues created"}</p>
+
         <div class="flex flex-col gap-4" n:loop var="x" source="$.rows">
             <issue title="{x.Title}" desc="{x.Desc}" dept="{x.Dept}" id="{x.Id}" status="{x.Status}" updated_at="{x.Updated_at}"></issue>
         </div>

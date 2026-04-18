@@ -1,0 +1,137 @@
+<head>
+    <title>Unibox</title>
+</head>
+
+<body>
+    <div class="bg-[#FFFCF8] min-h-screen text-black antialiased">
+
+        <header class="sticky top-6 z-50 mt-6 mx-auto max-w-7xl px-6 lg:px-8">
+            <nav
+                class="flex items-center justify-between rounded-full border border-black bg-white px-6 py-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+
+                <a href="#" class="flex items-center gap-2.5 group">
+                    <div
+                        class="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white transition-transform group-hover:rotate-[-10deg]">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                            <path fill-rule="evenodd"
+                                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6a.75.75 0 00.18.491l2.25 2.25a.75.75 0 101.06-1.06l-1.99-1.99V6z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-extrabold tracking-tighter text-black">unibox<span
+                            class="text-[#0055FF]">.</span></span>
+                </a>
+
+                <div class="hidden md:flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 p-1">
+                    <a href="#"
+                        class="rounded-full px-4 py-1.5 text-sm font-semibold text-black bg-white shadow-sm border border-gray-100">The
+                        Problem</a>
+                    <a href="#"
+                        class="rounded-full px-4 py-1.5 text-sm font-semibold text-gray-700 hover:text-black transition-colors">How
+                        it works</a>
+                    <a href="#"
+                        class="rounded-full px-4 py-1.5 text-sm font-semibold text-gray-700 hover:text-black transition-colors">Case
+                        Studies</a>
+                </div>
+
+                <a href="/auth"
+                    class="inline-flex items-center justify-center rounded-full bg-black px-6 py-2.5 text-sm font-bold text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-[#1a1a1a] transition-all active:translate-x-[1px] active:translate-y-[1px] active:shadow-none">
+                    Open Dashboard
+                </a>
+            </nav>
+        </header>
+
+        <section class="relative pt-16 pb-24 overflow-hidden">
+
+            <div class="absolute inset-0 -z-10 h-full w-full">
+                <svg class="h-full w-full" fill="none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <line x1="100" y1="0" x2="0" y2="100" stroke="#000" stroke-width="0.1" stroke-dasharray="1 3" />
+                </svg>
+            </div>
+
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+
+                    <div class="lg:col-span-6 flex flex-col items-start pt-10">
+
+                        <div
+                            class="inline-flex items-center gap-2 rounded-full border border-black px-3 py-1 mb-8 text-sm font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                            <span class="h-2 w-2 rounded-full bg-[#0055FF] animate-pulse"></span>
+                            Hackathon Protocol 2024
+                        </div>
+
+                        <h1 class="text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.9] text-black">
+                            <span class="font-[Instrument\ Serif] italic font-normal text-black block mb-2">Campus
+                                accountability</span>
+                            <span class="block">fully <span
+                                    class="text-[#0055FF] underline decoration-4 underline-offset-8">automated</span><span
+                                    class="text-black">.</span></span>
+                        </h1>
+
+                        <p class="mt-10 text-xl leading-relaxed text-gray-900 max-w-lg font-medium">
+                            Unibox bridges the gap between students and university departments. One portal, instant
+                            routing, total transparency.
+                        </p>
+
+                        <div class="mt-12 flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
+                            <a href="/student/login"
+                                class="w-full sm:w-auto text-center rounded-xl bg-[#0055FF] px-10 py-5 text-lg font-bold text-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                                Student Login
+                            </a>
+                            <a href="/admin/login"
+                                class="text-lg font-bold text-black border-b-2 border-transparent hover:border-black transition-all flex items-center gap-2">
+                                Department Portal (Desktop)
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 mt-16 lg:mt-0 relative aspect-[10/9]">
+
+                        <div
+                            class="absolute inset-0 bg-white border-2 border-black rounded-3xl shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+                            <div class="p-8">
+                                <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-6 mb-6">
+                                    <div class="h-3 w-3 rounded-full bg-red-500"></div>
+                                    <div class="h-3 w-3 rounded-full bg-yellow-500"></div>
+                                    <div class="h-3 w-3 rounded-full bg-green-500"></div>
+                                    <div class="ml-auto text-sm font-mono text-gray-400">ticket_router.config</div>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div
+                                        class="h-10 w-full bg-[#0055FF]/10 rounded border border-[#0055FF]/20 flex items-center px-4 font-mono text-sm text-[#0055FF]">
+                                        $ INPUT: Hostel A > Room 303 > Leaky Pipe
+                                    </div>
+                                    <div
+                                        class="h-20 w-3/4 bg-black rounded border border-black p-4 font-mono text-xs text-gray-400">
+                                        // routing logic running... <br>
+                                        MATCH category == 'Plumbing' <br>
+                                        ROUTE_TO dept_id : 'PLUMB001'
+                                    </div>
+                                    <div
+                                        class="h-10 w-full bg-green-50 rounded border border-green-200 flex items-center px-4 font-mono text-sm text-green-700">
+                                        ✓ SUCCESS: Delivered to Plumbing Dept Queue
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="absolute -top-6 -right-6 rounded-2xl border-2 border-black bg-[#FFFCF8] p-4 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] rotate-[15deg] z-10">
+                            <p class="text-lg font-black tracking-tight text-black">Live Status:</p>
+                            <p class="text-3xl font-black text-[#0055FF] tracking-tighter">142 <span
+                                    class="text-lg text-black font-semibold">Issues Resolved</span></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+</body>

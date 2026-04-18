@@ -1,6 +1,6 @@
 <body props="{ id, title, desc, status, dept, updated_at }">
 
-    <div on:click="toggleDesc(this)" class="relative group cursor-pointer bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:bg-white/90 active:scale-[0.99]transition-all duration-300">
+    <div on:click="toggleDesc(this)" class="relative group cursor-pointer bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:bg-white/90 active:scale-[0.99] transition-all duration-300">
 
         <div class="flex justify-between items-start gap-4">
             <h3 class="text-lg font-semibold text-gray-800 leading-snug group-hover:text-black transition">{title}</h3>

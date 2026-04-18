@@ -1,11 +1,48 @@
 <head>
-    <title>Nijor | 404</title>
+    <title>Unibox | 404</title>
 </head>
 <body>
-    <div>
-        <h1>404 Not found!</h1>
-        <p>It seems as if the page you are looking for is under construction or not found. <br>
-        Please go to the <a n:route="/">Home</a> page.
+    <section class="min-h-screen w-full flex flex-col items-center justify-center px-6 py-12">
+    <div class="w-full max-w-160 text-center">
+        
+        <div class="relative mb-10">
+            <h1 class="text-[12rem] md:text-[16rem] font-black text-gray-100 leading-none select-none">
+                404
+            </h1>
+            
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 transform -rotate-6 hover:rotate-0 transition-transform duration-500 max-w-xs">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Routing Error</span>
+                    </div>
+                    <div class="h-2 w-32 bg-gray-100 rounded mb-2"></div>
+                    <div class="h-2 w-24 bg-gray-50 rounded"></div>
+                    <p class="mt-4 text-sm font-bold text-gray-800">Issue ID: Page Not Found</p>
+                    <p class="text-xs text-gray-500 mt-1 italic">This request could not be routed to the destination.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+            Looks like you're <span class="text-blue-600">off-campus.</span>
+        </h2>
+        <p class="text-lg text-gray-600 mb-10 max-w-md mx-auto">
+            The page you are looking for doesn't exist or has been moved to a different department.
         </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a n:route="/" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-blue-200">
+                Back to Dashboard
+            </a>
+            <button onclick="window.history.back()" class="px-8 py-4 bg-white border border-gray-200 hover:border-gray-300 text-gray-700 font-bold rounded-2xl transition-all">
+                Go Back
+            </button>
+        </div>
     </div>
+</section>
 </body>

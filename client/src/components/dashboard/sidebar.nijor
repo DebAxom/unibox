@@ -18,10 +18,10 @@
                 <span>Past Issues</span>
             </a>
 
-            <a n:route="/dashboard/analytics" class="flex flex-row items-center gap-2 px-3 py-2 rounded-lg text-neutral-400 hover:bg-white/5 hover:text-white transition" class:active="{$.route == '/dashboard/analytics'}">
+            <!-- <a n:route="/dashboard/analytics" class="flex flex-row items-center gap-2 px-3 py-2 rounded-lg text-neutral-400 hover:bg-white/5 hover:text-white transition" class:active="{$.route == '/dashboard/analytics'}">
                 <span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M296.51-288.51h50.26v-192.57h-50.26v192.57Zm316.72 0h50.26v-399.75h-50.26v399.75Zm-158.36 0h50.26v-109.18h-50.26v109.18Zm0-192.57h50.26v-70.25h-50.26v70.25ZM202.57-140q-25.79 0-44.18-18.39T140-202.57v-554.86q0-25.79 18.39-44.18T202.57-820h554.86q25.79 0 44.18 18.39T820-757.43v554.86q0 25.79-18.39 44.18T757.43-140H202.57Zm0-50.26h554.86q4.62 0 8.47-3.84 3.84-3.85 3.84-8.47v-554.86q0-4.62-3.84-8.47-3.85-3.84-8.47-3.84H202.57q-4.62 0-8.47 3.84-3.84 3.85-3.84 8.47v554.86q0 4.62 3.84 8.47 3.85 3.84 8.47 3.84Zm-12.31-579.48v579.48-579.48Z"/></svg></span>        
                 <span>Analytics</span>
-            </a>
+            </a> -->
 
         </div>
 

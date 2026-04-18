@@ -52,7 +52,6 @@
         const password = formData.get("password");
 
         const body = { username , password };
-        console.log(body);
 
         const res = await fetch("http://localhost:5000/auth/login/admin", {
             method: "POST",

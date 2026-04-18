@@ -16,8 +16,45 @@
 
 <script>
     import { Get } from "@/fetch";
+    import { refresher } from "@/refresher";
     $.rows = [];
+
+    refresher.subscribe(_ => {
+        Get("/api/issues/unresolved").then((x) => {
+            if(x.data) $.rows = x.data;
+            else $.rows = [];
+        }).catch(err=>$.rows=[]);
+    });
+
+    $.count = 0;
+
+    async function checkRows() {
+        try {
+            const res = await Get("/api/issues/count");
+            $.count = res.count;
+        } catch (err) {
+            console.error("issues poll error : ", err);
+        }
+    }
+
+    $.$subscribe('count',()=>{
+        Get("/api/issues/unresolved").then((x) => {
+            if(x.data) $.rows = x.data;
+            else $.rows = [];
+        }).catch(err=>$.rows=[]);
+    });
+
+    setInterval(() => {
+        if (window.location.pathname == "/dashboard") {
+            checkRows();
+        }
+    }, 5000);
+
+    checkRows();
 </script>
 <script defer>
-    Get("/api/issues/unresolved").then(({data}) => $.rows = data).catch(err=>$.rows=[]);
+    Get("/api/issues/unresolved").then((x) => {
+        if(x.data) $.rows = x.data;
+        else $.rows = [];
+    }).catch(err=>$.rows=[]);
 </script>

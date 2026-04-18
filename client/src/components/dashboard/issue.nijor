@@ -20,7 +20,7 @@
 
         <div class="mt-2 flex items-start gap-4">
             <p class="text-sm text-gray-600 leading-relaxed flex-1">{desc}</p>
-            <img src="{img}" onclick="window.open('{img}', '_blank')" class:hidden="{img == 'null'}" class="w-24 h-24 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition shrink-0" />
+            <img src="http://localhost:3000/uploads/{img}" onclick="window.open(this.src, '_blank')" class:hidden="{img == 'null'}" class="w-24 h-24 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition shrink-0" />
         </div>
 
         <div class="mt-4 flex gap-2 flex-wrap">
@@ -41,6 +41,8 @@
 <script>
     import { createAlertBox } from "@/alertbox" ;
     import { Patch } from "@/fetch";
+    import { refresher } from "@/refresher";
+
 
     function formatDateTime(timestamp) {
         const d = new Date(timestamp);
@@ -76,8 +78,11 @@
         });
 
         if(res.action == "Progress"){
-            await Patch(`/api/issue/${id}/progress`);
-            window.nijor.redirect("/dashboard");
+            try {
+                await Patch(`/api/issue/${id}/progress`,JSON.stringify({reason:res.msg}));
+            } catch (error) {}finally{
+                refresher.value = refresher.value + 1;
+            }
         }
     }
 
@@ -89,17 +94,25 @@
             btn_a : "Cancel",
             btn_b : "Reject"
         });
-
+        
         if(res.action == "Reject"){
-            await Patch(`/api/issue/${id}/reject`);
-            window.nijor.redirect("/dashboard");
+            try {
+                await Patch(`/api/issue/${id}/reject`,JSON.stringify({reason:res.msg}));
+            } catch (error) {}finally{
+                refresher.value = refresher.value + 1;
+            }
         }
+        
+
     }
 
     async function resolve(_this){
         const id = _this.getAttribute("_id");
-        let res = await Patch(`/api/issue/${id}/resolved`);
-        window.nijor.redirect("/dashboard");
+        try {
+            await Patch(`/api/issue/${id}/resolved`);
+        } catch (error) {}finally{
+            refresher.value = refresher.value + 1;
+        }
     }
 
 </script>

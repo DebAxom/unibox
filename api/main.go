@@ -73,12 +73,16 @@ func main() {
 	auth.Post("/logoutall", AuthHandler.LogOutAll)
 	auth.Post("/refresh", AuthHandler.Refresh)
 
-	ProfileHandler := &handlers.Profile{DB: db}
+	ApiHandler := &handlers.Api{DB: db}
 	IssueHandler := &handlers.Issue{DB: db}
 	api := app.Group("/api", middlewares.Auth(db))
-	api.Get("/", ProfileHandler.Init)
+	api.Get("/", ApiHandler.Init)
+	api.Get("/new/notification", ApiHandler.NewNotifications)
+	api.Get("/notifications", ApiHandler.AllNotifications)
+
 	api.Post("/issue", IssueHandler.Create)
 	api.Get("/issues", IssueHandler.Get)
+	api.Get("/issues/count", IssueHandler.CountUnresolved)
 	api.Get("/issues/resolved", IssueHandler.GetResolved)
 	api.Get("/issues/unresolved", IssueHandler.GetUnresolved)
 	api.Patch("/issue/:id/reject", IssueHandler.Reject)

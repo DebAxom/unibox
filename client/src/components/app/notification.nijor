@@ -1,0 +1,49 @@
+<body props="{ title, msg, dept, timestamp }">
+
+    <div class="flex gap-3 items-start bg-white border border-gray-200 rounded-xl p-4 shadow-lg transition cursor-pointer">
+
+        <div class="flex-1">
+
+            <div class="flex items-center justify-between gap-4">
+                <h3 class="text-sm font-medium text-gray-800">{title}</h3>
+                <span class="text-xs text-gray-400 shrink-0">{formatDateTime(timestamp)}</span>
+            </div>
+
+            <p class="text-sm text-gray-600 mt-1 leading-relaxed">{msg}</p>
+
+            <div class="mt-2 text-xs text-gray-400">
+                <span class="text-blue-500 text-[11px] font-semibold">{dept}</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+<script>
+
+    function formatDateTime(timestamp) {
+        const d = new Date(timestamp);
+
+        const hours = d.getHours();
+        const minutes = d.getMinutes();
+
+        const ampm = hours >= 12 ? "PM" : "AM";
+        const hour12 = hours % 12 || 12; // convert 0 → 12
+
+        const pad = (n) => n.toString().padStart(2, "0");
+
+        const day = d.getDate();
+        const year = d.getFullYear();
+
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        const monthName = months[d.getMonth()];
+
+        return `${pad(hour12)}:${pad(minutes)} ${ampm} ${day} ${monthName} ${year}`;
+    }
+
+</script>

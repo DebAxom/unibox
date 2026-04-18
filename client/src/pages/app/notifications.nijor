@@ -1,0 +1,28 @@
+<head>
+    <title>Unibox</title>
+</head>
+
+<import name="notification" source="@/components/app/notification.nijor" />
+
+<body layout="app">
+    <div class="w-full max-w-5xl mx-auto px-6">
+
+        <p class="text-sm text-center text-gray-500 mt-12">{$.rows.length > 0  ? "" : "No Notifications"}</span></p>
+
+        <div class="flex flex-col gap-3 mt-10" n:loop var="x" source="$.rows">
+            <notification title="{x.title}" msg="{x.message}" dept="{x.dept}" timestamp="{x.timestamp}"></notification>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    import { Get } from "@/fetch";
+    $.rows = [];
+</script>
+<script defer>
+    Get("/api/notifications").then((x) =>{ 
+        console.log(x);
+        $.rows = x;
+    }).catch(err=>$.rows=[]);
+</script>

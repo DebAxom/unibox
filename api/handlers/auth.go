@@ -207,11 +207,11 @@ func (h *Auth) LogInAdmin(c fiber.Ctx) error {
 
 	user, err := db.GetAdminByUsername(h.DB, c.Context(), body.Username)
 	if err != nil {
-		return c.Status(401).JSON(fiber.Map{"error": err.Error()})
+		return c.Status(401).JSON(fiber.Map{"error": "Wrong credentials"})
 	}
 
 	if !CheckPassword(user.Password, body.Password) {
-		return c.Status(401).JSON(fiber.Map{"error": "Wrong Password"})
+		return c.Status(401).JSON(fiber.Map{"error": "Wrong credentials"})
 	}
 
 	accessToken, _ := GenerateToken(user.Id, user.TokenVersion, "admin", 15*time.Minute, os.Getenv("ACCESS_SECRET"))

@@ -138,24 +138,34 @@ func (h *Issue) GetUnresolved(c fiber.Ctx) error {
 	return c.SendStatus(404)
 }
 
-func (h *Issue) Update(c fiber.Ctx) error {
+func (h *Issue) CountUnresolved(c fiber.Ctx) error {
 	role := c.Locals("role").(string)
+	user_id := c.Locals("user_id").(string)
 
 	if role != "admin" {
-		return c.SendStatus(401)
+		return c.SendStatus(404)
 	}
 
-	body := new(struct {
-		Id      string `json:"id"`
-		Action  string `json:"action"`
-		Payload string `json:"payload"`
+	admin, err := db.GetAdminById(h.DB, c.Context(), user_id)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	var count int
+
+	err = h.DB.QueryRow(c.Context(), `
+		SELECT COUNT(*) 
+		FROM issues 
+		WHERE dept = $1 AND status NOT IN ('resolved', 'rejected')
+	`, admin.Department).Scan(&count)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(fiber.Map{
+		"count": count,
 	})
-
-	if err := c.Bind().All(body); err != nil {
-		return c.Status(400).JSON(fiber.Map{"error": "Invalid request"})
-	}
-
-	return c.SendStatus(404)
 }
 
 func (h *Issue) Reject(c fiber.Ctx) error {
@@ -167,18 +177,27 @@ func (h *Issue) Reject(c fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
+	body := new(struct {
+		Reason string `json:"reason"`
+	})
+
+	if err := c.Bind().All(body); err != nil {
+		return c.Status(400).SendString("Invalid request")
+	}
+
 	admin, err := db.GetAdminById(h.DB, c.Context(), adminID)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	// Get issue dept + status
-	query := `SELECT issuer, status, dept FROM issues WHERE id = $1`
+	query := `SELECT issuer, status, title, dept FROM issues WHERE id = $1`
 
 	var issue models.Issue
 	err = h.DB.QueryRow(c.Context(), query, issueID).Scan(
 		&issue.Issuer,
 		&issue.Status,
+		&issue.Title,
 		&issue.Dept,
 	)
 
@@ -200,6 +219,9 @@ func (h *Issue) Reject(c fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
 
+	title := "Rejected : " + issue.Title
+	msg := body.Reason
+	utils.Notify(h.DB, c.Context(), title, msg, issue.Issuer, issue.Dept, issue.Id)
 	return c.JSON(fiber.Map{"id": issueID})
 
 }
@@ -213,18 +235,27 @@ func (h *Issue) Progress(c fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
+	body := new(struct {
+		Reason string `json:"reason"`
+	})
+
+	if err := c.Bind().All(body); err != nil {
+		return c.Status(400).SendString("Invalid request")
+	}
+
 	admin, err := db.GetAdminById(h.DB, c.Context(), adminID)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	// Get issue dept + status
-	query := `SELECT issuer, status, dept FROM issues WHERE id = $1`
+	query := `SELECT issuer, status, title, dept FROM issues WHERE id = $1`
 
 	var issue models.Issue
 	err = h.DB.QueryRow(c.Context(), query, issueID).Scan(
 		&issue.Issuer,
 		&issue.Status,
+		&issue.Title,
 		&issue.Dept,
 	)
 
@@ -246,6 +277,9 @@ func (h *Issue) Progress(c fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
 
+	title := "Progress : " + issue.Title
+	msg := body.Reason
+	utils.Notify(h.DB, c.Context(), title, msg, issue.Issuer, issue.Dept, issue.Id)
 	return c.JSON(fiber.Map{"id": issueID})
 }
 
@@ -264,12 +298,13 @@ func (h *Issue) Resolve(c fiber.Ctx) error {
 	}
 
 	// Get issue dept + status
-	query := `SELECT issuer, status, dept FROM issues WHERE id = $1`
+	query := `SELECT issuer, status, title, dept FROM issues WHERE id = $1`
 
 	var issue models.Issue
 	err = h.DB.QueryRow(c.Context(), query, issueID).Scan(
 		&issue.Issuer,
 		&issue.Status,
+		&issue.Title,
 		&issue.Dept,
 	)
 
@@ -292,5 +327,8 @@ func (h *Issue) Resolve(c fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
 
+	title := "Resolved : " + issue.Title
+	msg := "Your issue has been resolved !"
+	utils.Notify(h.DB, c.Context(), title, msg, issue.Issuer, issue.Dept, issue.Id)
 	return c.JSON(fiber.Map{"id": issueID})
 }
