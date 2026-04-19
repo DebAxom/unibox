@@ -1,4 +1,4 @@
-<img src="client/assets/images/logo.svg" width="96" height="96" alt="Unibox Logo" />
+<img src="./logo.svg" width="96" height="96" alt="Unibox" />
 
 # Unibox
 
@@ -371,7 +371,7 @@ Please keep pull requests focused — one feature or fix per PR.
 
 ## License
 
-[MIT](LICENSE) — free to use, modify, and deploy.
+[MIT](LICENSE.md) — free to use, modify, and deploy.
 
 ---
 
