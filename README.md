@@ -285,7 +285,7 @@ GMAIL_APP_PASS=your_app_password_here
 ```bash
 cd api
 go mod download
-go run main.go
+go run .
 ```
 
 The API server starts on **`:5000`**.
@@ -304,7 +304,7 @@ JWT_SECRET=your_refresh_secret_here   # must match REFRESH_SECRET above
 cd client
 bun install
 bun run tw &          # Tailwind watcher
-nijor dev        # Nijor dev server on :3000
+nijor dev        # Nijor dev server on :3000 ; use bun x nijor dev if using bun
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
