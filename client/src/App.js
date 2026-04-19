@@ -10,22 +10,15 @@ async function init(){
     setAccessToken(data.access_token);
 }
 
-window.refreshUser = async function () {
-    try {
-        await init();
-        const data = await Get("/api/");
-        window.currentUser = data;
-    } catch (error) {
-        window.currentUser = null;
-    }
-};
-
 (async()=>{
     try {
         await init();
         const data = await Get("/api/");
         window.currentUser = data;
     } catch (error) {
+        if(window.location.pathname.startsWith("/app") || window.location.pathname.startsWith("/dashboard")){
+            window.location.href = "/auth";
+        }
         window.currentUser = null;
     }finally{
         let { pathname } = window.location;
