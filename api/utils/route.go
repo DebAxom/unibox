@@ -104,7 +104,7 @@ func RouteComplain(user models.User, title, desc string) string {
 
 	// Confidence threshold
 	if score < 2 {
-		return "other"
+		dept = "hostel"
 	}
 
 	// Hostel expansion
